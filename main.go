@@ -9,9 +9,11 @@ import (
 
 func main() {
 	r := gin.Default()
+
 	r.GET("/users", c.GetUsers)
 	r.POST("/users", c.AddUser)
 	r.PUT("/users", c.UpdateUser)
 	r.DELETE("/users", c.DeleteUser)
+
 	r.Run()
 }

@@ -31,7 +31,7 @@ func GetUsers(c *gin.Context) {
 	if len(users) == 0 {
 		c.AbortWithStatus(http.StatusNotFound)
 	} else {
-		c.IndentedJSON(http.StatusOK, users)
+		c.IndentedJSON(http.StatusCreated, users)
 	}
 
 }
@@ -93,24 +93,10 @@ func DeleteUser(c *gin.Context) {
 	db := Connect()
 	defer db.Close()
 
-	id := c.Params.ByName("ID")
+	id := c.Query("ID")
 
-	// var user User
-
-	// if err := c.Bind(&user); err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-
-	// fmt.Println(user.ID)
-
-	// // Query
-	// result, errQuery := db.Exec(`DELETE FROM users
-	// WHERE ID=?`, user.ID)
-
-	fmt.Println(id)
 	// Query
-	result, errQuery := db.Exec(`DELETE FROM users 
+	result, errQuery := db.Exec(`DELETE FROM users
 	WHERE ID=?`, id)
 
 	num, _ := result.RowsAffected() //num, err
@@ -122,7 +108,6 @@ func DeleteUser(c *gin.Context) {
 			return
 		} else {
 			c.IndentedJSON(http.StatusOK, id)
-			// c.IndentedJSON(http.StatusOK, user)
 		}
 	}
 
